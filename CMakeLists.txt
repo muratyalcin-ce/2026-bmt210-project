@@ -46,6 +46,3 @@ elseif(UNIX)
         X11
     )
 endif()
-
-# Copy assets to build folder
-file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
