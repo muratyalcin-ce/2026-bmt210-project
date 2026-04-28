@@ -3,13 +3,19 @@
 
 #include "stroke.h"
 #include "stack.h"
+#include "hashmap.h"
+#include "layer.h"
 
 typedef struct {
-    StrokeList strokes;
+    Layer* root;
+    Layer* activeLayer;
+
     Stroke* currentStroke;
 
-    Stack undoStack;
     Stack redoStack;
+
+    HashMap tools;
+    Tool* currentTool;
 } App;
 
 

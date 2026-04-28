@@ -9,6 +9,7 @@ void InitStack(Stack* stack)
 void Push(Stack* stack, Stroke* stroke)
 {
     StackNode* node = (StackNode*) malloc(sizeof(StackNode));
+	if(!node) return;
     node->stroke = stroke;
     node->next = stack->top;
     stack->top = node;

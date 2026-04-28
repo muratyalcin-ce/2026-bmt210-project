@@ -11,12 +11,19 @@ typedef struct Point {
     struct Point* next;
 } Point;
 
+typedef enum {
+    STROKE_DRAW,
+    STROKE_ERASE
+} StrokeType;
+
 // One stroke (linked list of points)
 typedef struct Stroke {
     Point* head;
     Point* tail;
     Color color;
     int size;
+
+    StrokeType type;   
 
     struct Stroke* next;
 } Stroke;

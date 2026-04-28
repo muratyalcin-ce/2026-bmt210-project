@@ -1,6 +1,7 @@
-#include <stdlib.h>
 #include "stroke.h"
 
+#include <stdlib.h>
+#include <math.h>
 // Create new stroke
 Stroke* CreateStroke(Color color, int size)
 {
@@ -59,36 +60,6 @@ void DrawStrokes(StrokeList* list)
 }
 
 
-/* void DrawStrokesFromStack(Stack* stack) */
-/* { */
-/*     // Reverse stack (so oldest draws first) */
-/*     StackNode* current = stack->top; */
-
-/*     // Temporary array (simple solution) */
-/*     Stroke* temp[10000]; */
-/*     int count = 0; */
-
-/*     while (current) */
-/*     { */
-/*         temp[count++] = current->stroke; */
-/*         current = current->next; */
-/*     } */
-
-/*     for (int i = count - 1; i >= 0; i--) */
-/*     { */
-/*         Stroke* s = temp[i]; */
-
-/* 		Point* prev = s->head; */
-/* 		Point* p = s->head; */
-/* 		while (p != NULL) { */
-/*             //DrawCircle(p->x, p->y, s->size, s->color); */
-/* 			DrawLine(prev->x, prev->y, p->x, p->y, s->color); */
-/* 			prev = p; */
-/* 			p = p->next; */
-/*         } */
-/*     } */
-/* } */
-
 void DrawStrokesFromStack(Stack* stack)
 {
     int count = 0;
@@ -121,16 +92,18 @@ void DrawStrokesFromStack(Stack* stack)
     free(arr);
 }
 
-
 void DrawSingleStroke(Stroke* s)
 {
-    Point* prev = NULL;
+    Point* prev = s->head;
 
     for (Point* p = s->head; p != NULL; p = p->next)
     {
         if (prev)
         {
-            DrawLine(prev->x, prev->y, p->x, p->y, s->color);
+			Vector2 start = {(float)prev->x, (float)prev->y};
+			Vector2 end = {(float)p->x, (float)p->y};
+
+            DrawLineEx(start, end, (float)s->size, s->color);
         }
         prev = p;
     }
@@ -156,3 +129,4 @@ void FreeStrokes(StrokeList* list)
         free(tempS);
     }
 }
+

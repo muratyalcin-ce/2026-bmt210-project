@@ -4,6 +4,8 @@ project(MyDraw C CXX)
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_CXX_STANDARD 17)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # Option to use bundled raylib
 option(USE_EXTERNAL_RAYLIB "Use raylib from external folder" ON)
 
