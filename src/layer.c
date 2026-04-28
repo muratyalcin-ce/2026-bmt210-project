@@ -143,3 +143,12 @@ void PrintLayerTree(Layer* layer, int depth)
     PrintLayerTree(layer->sibling, depth);
 }
 
+void ToggleAllLayerVisibility(Layer* layer)
+{
+    if (!layer) return;
+
+    layer->visible = !layer->visible;
+
+    ToggleAllLayerVisibility(layer->child);
+    ToggleAllLayerVisibility(layer->sibling);
+}

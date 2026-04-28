@@ -19,7 +19,7 @@ typedef struct {
 } App;
 
 
-void InitApp(App *app, int width, int height);
+void InitApp(App *app);
 void UpdateApp(App *app);
 void RenderApp(App *app);
 void DestroyApp(App *app);

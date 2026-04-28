@@ -23,6 +23,18 @@ void HandleInput(App *app)
 		app->activeLayer = GetPreviousLayer(app->activeLayer, app->root);
 	}
 
+	if (IsKeyPressed(KEY_V))
+	{
+		if (app->activeLayer)
+		{
+			app->activeLayer->visible = !app->activeLayer->visible;
+
+			printf("Layer %s visibility: %d\n",
+				   app->activeLayer->name,
+				   app->activeLayer->visible);
+		}
+	}
+
 	if (IsKeyPressed(KEY_N))
 	{
 		static int layerCount = 1;

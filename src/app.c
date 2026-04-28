@@ -1,7 +1,5 @@
 #include "app.h"
-#include "canvas.h"
 #include "input.h"
-#include "draw.h"
 #include "stack.h"
 #include "stroke.h"
 #include "layer.h"
@@ -11,9 +9,9 @@
 #include <stdio.h>
 
 
-void InitApp(App *app, int width, int height)
+void InitApp(App *app)
 {
-
+	
 	app->root = CreateLayer("Root");
 	app->currentStroke = NULL; 
 	app->activeLayer = app->root;
@@ -29,10 +27,6 @@ void InitApp(App *app, int width, int height)
 
     app->currentTool = Get(&app->tools, "brush");
 
-	if (!app->currentTool)
-	{
-		printf("ERROR: brush tool not found\n");
-	}
 }
 
 void UpdateApp(App *app)
@@ -45,19 +39,25 @@ void RenderApp(App *app)
 	ClearBackground(BLACK);
 
     // Draw completed strokes
-	DrawLayerTree(app->root);
+	DrawLayerTree(app->activeLayer);
 
-
+	// Current tool name
 	if (app->currentTool) {
 		DrawText(
 			app->currentTool->type == TOOL_BRUSH ? "Brush" : "Eraser",
 			10, 10, 8, WHITE
 			);
 	}
-	
+
+	// Active layer name
 	DrawText(
 		app->activeLayer->name,
-		20, 20, 8, WHITE
+		10, 20, 8, WHITE
+		);
+	
+	DrawText(
+		app->activeLayer->visible? "Visible" : "Not Visible",
+		10, 30, 8, WHITE
 		);
 	
     // Draw current stroke (while drawing)

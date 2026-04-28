@@ -17,7 +17,7 @@ int main(void)
 	
     App app;
 	
-    InitApp(&app, width, height);
+    InitApp(&app);
 
     while (!WindowShouldClose())
     {
