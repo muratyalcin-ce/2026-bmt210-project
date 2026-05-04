@@ -1,6 +1,9 @@
 #include <raylib.h>
 #include "app.h"
 
+#define RAYGUI_IMPLEMENTATION
+#include "raygui.h"
+#include "style_terminal.h"
 int main(void)
 {
 	SetConfigFlags(FLAG_WINDOW_UNDECORATED | FLAG_WINDOW_TOPMOST);
@@ -18,6 +21,7 @@ int main(void)
     App app;
 	
     InitApp(&app);
+	GuiLoadStyleTerminal();
 
     while (!WindowShouldClose())
     {

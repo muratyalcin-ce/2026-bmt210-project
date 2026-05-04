@@ -10,72 +10,36 @@
 extern StrokeList strokes;
 extern Stroke* currentStroke;
 
+int layerCount = 1;
 void HandleInput(App *app)
 {
     Vector2 mouse = GetMousePosition();
 	
-	if (IsKeyPressed(KEY_L))
-	{
+	if (IsKeyPressed(KEY_L)) {
 		app->activeLayer = GetNextLayer(app->activeLayer, app->root);
 	}
-	if (IsKeyPressed(KEY_K))
-	{
+	if (IsKeyPressed(KEY_K)) {
 		app->activeLayer = GetPreviousLayer(app->activeLayer, app->root);
 	}
 
-	if (IsKeyPressed(KEY_V))
-	{
-		if (app->activeLayer)
-		{
-			app->activeLayer->visible = !app->activeLayer->visible;
-
-			printf("Layer %s visibility: %d\n",
-				   app->activeLayer->name,
-				   app->activeLayer->visible);
-		}
+	if (IsKeyPressed(KEY_V)) {
+		ToggleActiveLayerVisibility(app);
 	}
 
-	if (IsKeyPressed(KEY_N))
-	{
-		static int layerCount = 1;
-
-		char name[32];
-		sprintf(name, "Layer %d", layerCount++);
-
-		Layer* newLayer = AddSiblingLayer(app->activeLayer, name);
-
-		if (newLayer)
-		{
-			app->activeLayer = newLayer;
-			printf("Created layer: %s\n", name);
-			PrintLayerTree(app->root, 6);
-		}
+	if (IsKeyPressed(KEY_N)) {
+		AddSiblingLayerToApp(app);
 	}
 	
-	if (IsKeyPressed(KEY_M)) // M for "make child"
-	{
-		Layer* child = AddChildLayer(app->activeLayer, "Child Layer");
-
-		if (child)
-			app->activeLayer = child;
+	if (IsKeyPressed(KEY_M)) {
+		AddChildLayerToApp(app);
 	}
 
-	if (IsKeyPressed(KEY_Z))
-	{
-		Stroke* s = Pop(&app->activeLayer->undoStrokes);
-		if (s)
-		{
-			Push(&app->activeLayer->redoStrokes, s);
-		}
+	if (IsKeyPressed(KEY_Z)) {
+		Undo(app);
 	}
 	
-	if (IsKeyPressed(KEY_Y))
-	{
-		Stroke* s = Pop(&app->activeLayer->redoStrokes);
-		if (s)
-		{
-			Push(&app->activeLayer->undoStrokes, s);
-		}
+	if (IsKeyPressed(KEY_R)) {
+		Redo(app);
 	}
 
 	if (IsKeyPressed(KEY_ONE))
@@ -88,20 +52,19 @@ void HandleInput(App *app)
 		app->currentTool->color = BLUE;
 	
 	// Switch tools
-	if (IsKeyPressed(KEY_B))
-	{
+	if (IsKeyPressed(KEY_B)) {
 		app->currentTool = Get(&app->tools, "brush");
 	}
 
-	if (IsKeyPressed(KEY_E))
-	{
+	if (IsKeyPressed(KEY_E)) {
 		app->currentTool = Get(&app->tools, "eraser");
 	}
 	
-
+	
+	int mouseOnUI = CheckCollisionPointRec(mouse, (Rectangle){0, 0, 140, 240});
+	
 	// Start stroke
-	if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
-	{
+	if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && !mouseOnUI) {
 		printf("Started stroke.\n");
 		
 		
@@ -117,8 +80,7 @@ void HandleInput(App *app)
 	}
 
 	// Continue stroke
-	if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
-	{
+	if (IsMouseButtonDown(MOUSE_LEFT_BUTTON) && !mouseOnUI) {
 		if (app->currentStroke)
 		{
 			AddPointToStroke(app->currentStroke, (int)mouse.x, (int)mouse.y);
@@ -126,7 +88,7 @@ void HandleInput(App *app)
 	}
 
 	// End stroke
-	if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON))
+	if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON) && !mouseOnUI)
 	{
 		printf("Ended stroke.\n");
 		if (app->currentStroke)

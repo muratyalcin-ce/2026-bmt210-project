@@ -23,5 +23,11 @@ void InitApp(App *app);
 void UpdateApp(App *app);
 void RenderApp(App *app);
 void DestroyApp(App *app);
+void AddChildLayerToApp(App *app);
+void AddSiblingLayerToApp(App *app);
+void ToggleActiveLayerVisibility(App *app);
+
+void Undo(App *app);
+void Redo(App *app);
 
 #endif
