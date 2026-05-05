@@ -38,7 +38,7 @@ void HandleInput(App *app)
 		Undo(app);
 	}
 	
-	if (IsKeyPressed(KEY_R)) {
+	if (IsKeyPressed(KEY_Y)) {
 		Redo(app);
 	}
 
