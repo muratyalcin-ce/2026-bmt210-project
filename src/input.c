@@ -100,4 +100,8 @@ void HandleInput(App *app)
 		app->currentStroke = NULL;
 	}
 	
+	float scroll_amount = GetMouseWheelMove();
+	if(scroll_amount) {
+		app->currentTool->size += 1*GetMouseWheelMove();
+	}
 }

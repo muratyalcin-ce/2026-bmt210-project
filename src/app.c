@@ -67,6 +67,9 @@ void RenderApp(App *app)
         DrawSingleStroke(app->currentStroke);
     }
 
+	// Cursor
+	DrawCircleLines(GetMouseX(), GetMouseY(), app->currentTool->size, GRAY);
+	
 	// GUI
     if (GuiButton((Rectangle){10, 60, 80, 30}, GuiIconText(ICON_BRUSH_CLASSIC, "Brush")))
         app->currentTool = Get(&app->tools, "brush");
