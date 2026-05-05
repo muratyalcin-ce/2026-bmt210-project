@@ -57,7 +57,7 @@ void RenderApp(App *app)
 	
 	
 	GuiLabel(
-		(Rectangle){10, 40, 40,20},
+		(Rectangle){10, 40, 80, 20},
 		app->activeLayer->visible? "Visible" : "Not Visible");
 	
 	
@@ -92,6 +92,10 @@ void RenderApp(App *app)
 	
 	if (GuiButton((Rectangle) {40, 220, 20, 20}, GuiIconText(ICON_REDO, ""))) {
 		Redo(app);
+	}
+
+	if (GuiButton((Rectangle) {70, 220, 20, 20}, GuiIconText(ICON_EYE_OFF, ""))) {
+		ToggleActiveLayerVisibility(app);
 	}
 
 }
