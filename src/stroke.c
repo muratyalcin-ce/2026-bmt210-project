@@ -102,8 +102,9 @@ void DrawSingleStroke(Stroke* s)
         {
 			Vector2 start = {(float)prev->x, (float)prev->y};
 			Vector2 end = {(float)p->x, (float)p->y};
-
-            DrawLineEx(start, end, (float)s->size, s->color);
+			DrawCircleV(start, (float)s->size/2.0f, s->color);
+			DrawCircleV(end, (float)s->size/2.0f, s->color);
+			DrawLineEx(end, start, (float)s->size, s->color);
         }
         prev = p;
     }
