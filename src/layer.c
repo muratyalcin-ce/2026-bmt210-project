@@ -162,5 +162,8 @@ Layer* FreeLayer(Layer* layer) {
 	ClearStack(&layer->redoStrokes);
 	free(layer);
 
+
+
 	return NULL;
 }
+

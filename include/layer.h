@@ -26,4 +26,5 @@ void PrintLayerTree(Layer* layer, int depth);
 void ToggleAllLayerVisibility(Layer* layer);
 Layer* FreeLayer(Layer* layer);
 
+
 #endif // LAYER_H

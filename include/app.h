@@ -5,6 +5,7 @@
 #include "stack.h"
 #include "hashmap.h"
 #include "layer.h"
+#include "layer_palette.h"
 
 typedef struct {
     Layer* root;
@@ -14,6 +15,9 @@ typedef struct {
 
     HashMap tools;
     Tool* currentTool;
+
+    LayerPalette palette;
+    int layerCounter;
 } App;
 
 

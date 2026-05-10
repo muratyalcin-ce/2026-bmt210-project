@@ -3,6 +3,7 @@
 #include "stack.h"
 #include "stroke.h"
 #include "layer.h"
+#include "layer_palette.h"
 
 #include <raylib.h>
 #include <stddef.h>
@@ -14,8 +15,17 @@ void InitApp(App *app)
 {
 	
 	app->root = CreateLayer("Root");
-	app->currentStroke = NULL; 
-	app->activeLayer = app->root;
+	app->currentStroke = NULL;
+	app->layerCounter = 2;
+	//app->activeLayer = app->root;
+
+	Layer* layer1 = AddChildLayer(app->root, "Layer 1");
+	Layer* layer2 = AddChildLayer(app->root, "Layer 2");
+
+	Layer* child1 = AddChildLayer(layer1, "Child 1.1");
+	Layer* child2 = AddChildLayer(layer1, "Child 1.2");
+
+	app->activeLayer = layer1;
 
     InitHashMap(&app->tools);
 
@@ -27,11 +37,22 @@ void InitApp(App *app)
 
     app->currentTool = Get(&app->tools, "brush");
 
+    InitLayerPalette(&app->palette, GetScreenWidth());
 }
 
 void UpdateApp(App *app)
 {
     HandleInput(app);
+
+    UpdateLayerPalette(&app->palette, app->root, &app->activeLayer);
+
+    static int lastWidth = 0;
+    int currentWidth = GetScreenWidth();
+    if (lastWidth != currentWidth)
+    {
+        ResizeLayerPalette(&app->palette, currentWidth);
+        lastWidth = currentWidth;
+    }
 }
 
 void RenderApp(App *app)
@@ -55,7 +76,7 @@ void RenderApp(App *app)
 
 	// Active layer name
 	GuiLabel(
-		(Rectangle){10, 20, 40,20},
+		(Rectangle){10, 20, 120,20},
 		app->activeLayer->name);
 	
 	
@@ -117,6 +138,7 @@ void RenderApp(App *app)
 		if((char)a != app->currentTool->color.a) app->currentTool->color.a = a;
 	};
 
+	DrawLayerPalette(&app->palette, app->root, app->activeLayer);
 }
 
 void DestroyApp(App *app) {
@@ -127,22 +149,44 @@ void AddChildLayerToApp(App *app) {
 	Layer* child = AddChildLayer(app->activeLayer, "Child Layer");
 
 	if (child)
+	{
 		app->activeLayer = child;
+		UpdateLayerPaletteButtons(&app->palette, app->root);
+	}
 }
 
 void AddSiblingLayerToApp(App *app) {
-	static int layerCount = 1;
-	
+	static int layerCounter = 2;
+	layerCounter++;
+
 	char name[32];
-	sprintf(name, "Layer %d", layerCount++);
+	sprintf(name, "Layer %d", layerCounter);
 
-	Layer* newLayer = AddSiblingLayer(app->activeLayer, name);
+	// Yeni layer oluştur
+	Layer* newLayer = CreateLayer(name);
+	newLayer->parent = app->root;
 
-	if (newLayer) {
-		app->activeLayer = newLayer;
-		printf("Created layer: %s\n", name);
-		PrintLayerTree(app->root, 6);
+	// Root'un child'larının sonuna ekle (sıralı tutmak için)
+	if (!app->root->child)
+	{
+		// Hiç child yoksa direkt ekle
+		app->root->child = newLayer;
 	}
+	else
+	{
+		// Son child'ı bul
+		Layer* last = app->root->child;
+		while (last->sibling)
+		{
+			last = last->sibling;
+		}
+		last->sibling = newLayer;
+	}
+
+	app->activeLayer = newLayer;
+	printf("Created layer: %s (Order preserved)\n", name);
+	PrintLayerTree(app->root, 6);
+	UpdateLayerPaletteButtons(&app->palette, app->root);
 }
 
 void ToggleActiveLayerVisibility(App *app) {

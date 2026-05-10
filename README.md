@@ -10,10 +10,18 @@ C programlama dili ve [Raylib](https://www.raylib.com/) kütüphanesi kullanıla
 
 ---
 
+# Release
+Hazır derlenmiş çalıştırılabilirler.
+(bkz. [Releases]())
+
+# Kaynak Koddan Derleme
 ## Gereksinimler
 
+Windows için Visual Studio Build Tools kullanılması önerilir.
+
+- **Make/Ninja** 
 - **CMake** 3.16+
-- **C derleyici** — GCC veya Clang (Windows'ta MSVC)
+- **C derleyici** —-GCC veya Clang (Windows'ta MSVC)
 - **Git**
 
 Raylib bu depoya alt modül olarak eklenmiştir, ayrıca kurulum gerekmez.
@@ -22,13 +30,17 @@ Raylib bu depoya alt modül olarak eklenmiştir, ayrıca kurulum gerekmez.
 
 ## Derleme
 
+
 ```bash
 # 1. Depoyu alt modüllerle birlikte klonla
 git clone --recurse-submodules https://github.com/muratyalcin-ce/2026-bmt210-project.git
 cd 2026-bmt210-project
 
-# 2. Yapılandır
+# 2. Yapılandır (Linux)
 cmake -B build -DCMAKE_BUILD_TYPE=Release
+
+# 2. Yapılandır (Windows)
+cmake -B build -DCMAKE_BUILD_TYPE=Release -G ninja
 
 # 3. Derle
 cmake --build build --config Release
