@@ -24,6 +24,6 @@ Layer* GetPreviousLayer(Layer* current, Layer* root);
 Layer* AddSiblingLayer(Layer* current, const char* name);
 void PrintLayerTree(Layer* layer, int depth);
 void ToggleAllLayerVisibility(Layer* layer);
-void FreeLayer(Layer* layer);
+Layer* FreeLayer(Layer* layer);
 
 #endif // LAYER_H

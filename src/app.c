@@ -120,7 +120,7 @@ void RenderApp(App *app)
 }
 
 void DestroyApp(App *app) {
-	FreeLayer(app->root);
+	app->root = FreeLayer(app->root);
 }
 
 void AddChildLayerToApp(App *app) {

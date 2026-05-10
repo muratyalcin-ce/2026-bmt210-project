@@ -154,11 +154,13 @@ void ToggleAllLayerVisibility(Layer* layer)
     ToggleAllLayerVisibility(layer->sibling);
 }
 
-void FreeLayer(Layer* layer) {
-	if(!layer) return;
-	if(layer->sibling) FreeLayer(layer->sibling);
-	if(layer->child) FreeLayer(layer->child);
+Layer* FreeLayer(Layer* layer) {
+	if(!layer) return NULL;
+	if(layer->sibling) layer->sibling = FreeLayer(layer->sibling);
+	if(layer->child) layer->child = FreeLayer(layer->child);
 	ClearStack(&layer->undoStrokes);
 	ClearStack(&layer->redoStrokes);
 	free(layer);
+
+	return NULL;
 }
