@@ -1,11 +1,12 @@
 #include <raylib.h>
-#include <math.h>
 #include <stddef.h>
+#include <stdlib.h>
 #include <stdio.h>
 
 #include "layer.h"
 #include "stroke.h"
 #include "app.h"
+#include "raygui.h"
 
 extern StrokeList strokes;
 extern Stroke* currentStroke;
@@ -13,6 +14,7 @@ extern Stroke* currentStroke;
 int layerCount = 1;
 void HandleInput(App *app)
 {
+	static bool isColorPicking = false;
     Vector2 mouse = GetMousePosition();
 	
 	if (IsKeyPressed(KEY_L)) {
@@ -42,6 +44,7 @@ void HandleInput(App *app)
 		Redo(app);
 	}
 
+
 	if (IsKeyPressed(KEY_ONE))
 		app->currentTool->color = BLACK;
 
@@ -61,7 +64,7 @@ void HandleInput(App *app)
 	}
 	
 	
-	int mouseOnUI = CheckCollisionPointRec(mouse, (Rectangle){0, 0, 140, 240});
+	int mouseOnUI = CheckCollisionPointRec(mouse, (Rectangle){0, 0, 140, 360});
 	
 	// Start stroke
 	if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && !mouseOnUI) {

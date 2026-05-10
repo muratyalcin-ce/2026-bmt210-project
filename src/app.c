@@ -16,7 +16,6 @@ void InitApp(App *app)
 	app->root = CreateLayer("Root");
 	app->currentStroke = NULL; 
 	app->activeLayer = app->root;
-    InitStack(&app->redoStack);
 
     InitHashMap(&app->tools);
 
@@ -37,6 +36,10 @@ void UpdateApp(App *app)
 
 void RenderApp(App *app)
 {
+	float r = (float) app->currentTool->color.r;
+	float g = (float) app->currentTool->color.g;
+	float b = (float) app->currentTool->color.b;
+	float a = (float) app->currentTool->color.a;
 	ClearBackground(GetColor(GuiGetStyle(DEFAULT, BACKGROUND_COLOR)));
 
     // Draw completed strokes
@@ -98,11 +101,26 @@ void RenderApp(App *app)
 		ToggleActiveLayerVisibility(app);
 	}
 
+	if (GuiSlider((Rectangle) {20, 250, 60, 20}, "R: ", "", &r, 0., 255.)){
+		if(r != app->currentTool->color.r) app->currentTool->color.r = r;
+	};
+	
+	if (GuiSlider((Rectangle) {20, 280, 60, 20}, "G: ", "", &g, 0., 255.)){
+		if((char)g != app->currentTool->color.g) app->currentTool->color.g = g;
+	};
+	
+	if (GuiSlider((Rectangle) {20, 310, 60, 20}, "B: ", "", &b, 0., 255.)){
+		if((char)b != app->currentTool->color.b) app->currentTool->color.b = b;
+	};
+	
+	if (GuiSlider((Rectangle) {20, 340, 60, 20}, "A: ", "", &a, 0., 255.)){
+		if((char)a != app->currentTool->color.a) app->currentTool->color.a = a;
+	};
+
 }
 
-void DestroyApp(App *app)
-{
-	ClearStack(&app->redoStack);
+void DestroyApp(App *app) {
+	FreeLayer(app->root);
 }
 
 void AddChildLayerToApp(App *app) {

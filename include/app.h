@@ -12,8 +12,6 @@ typedef struct {
 
     Stroke* currentStroke;
 
-    Stack redoStack;
-
     HashMap tools;
     Tool* currentTool;
 } App;
