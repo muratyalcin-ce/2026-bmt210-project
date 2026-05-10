@@ -12,7 +12,7 @@ C programlama dili ve [Raylib](https://www.raylib.com/) kütüphanesi kullanıla
 
 # Release
 Hazır derlenmiş çalıştırılabilirler.
-(bkz. [Releases]())
+(bkz. [Releases](https://github.com/muratyalcin-ce/2026-bmt210-project/releases))
 
 # Kaynak Koddan Derleme
 ## Gereksinimler
@@ -40,7 +40,7 @@ cd 2026-bmt210-project
 cmake -B build -DCMAKE_BUILD_TYPE=Release
 
 # 2. Yapılandır (Windows)
-cmake -B build -DCMAKE_BUILD_TYPE=Release -G ninja
+cmake -B build -DCMAKE_BUILD_TYPE=Release -G Ninja
 
 # 3. Derle
 cmake --build build --config Release
@@ -70,8 +70,8 @@ Kontroller arayüzde bulunan butonlar aracılığıyla da kullanılabilir.
 
 | İşlem | Kısayol |
 |---|---|
-| Çizim | Sol Fare Tuşu (basılı tut) |
-| Silgi | Silgi aracını seç + Sol Fare Tuşu |
+| Çizim | Fırça(`B`) + Sol Fare Tuşu (basılı tut) |
+| Silgi | Silgi aracını seç(`E`) + Sol Fare Tuşu |
 | Geri Al | `Z` |
 | Yinele |  `Y` |
 | Katman görünürlüğü | `V` |
